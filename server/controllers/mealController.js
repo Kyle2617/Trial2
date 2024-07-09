@@ -10,9 +10,9 @@ exports.getMeals = async (req, res) => {
 };
 
 exports.addMeal = async (req, res) => {
-  const { name, mealType, calories } = req.body;
+  const { name, date, mealType, calories } = req.body;
 
-  const newMeal = new Meal({ name, mealType, calories, createdAt: new Date() });
+  const newMeal = new Meal({ name, date, mealType, calories });
   try {
     const savedMeal = await newMeal.save();
     res.json(savedMeal);
@@ -23,10 +23,10 @@ exports.addMeal = async (req, res) => {
 
 exports.updateMeal = async (req, res) => {
   const { id } = req.params;
-  const { name, mealType, calories } = req.body;
+  const { name, date, mealType, calories } = req.body;
 
   try {
-    const updatedMeal = await Meal.findByIdAndUpdate(id, { name, mealType, calories }, { new: true });
+    const updatedMeal = await Meal.findByIdAndUpdate(id, { name, date, mealType, calories }, { new: true });
     res.json(updatedMeal);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -43,3 +43,4 @@ exports.deleteMeal = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+

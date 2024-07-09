@@ -1,63 +1,47 @@
-import React, { useContext, useEffect } from "react";
-import { GlobalContext } from "../context/GlobalState";
-import "boxicons";
-
-const Meal = ({ meal }) => {
-  const { deleteMeal } = useContext(GlobalContext);
-  if (!meal) return null;
-  return (
-    <div
-      className="item flex justify-center bg-gray-50 py-2 rounded-r"
-      style={{ borderLeft: `8px solid ${meal.color}` }}
-    >
-      <span className="block w-full">{meal.name}</span>
-      <span className="block w-full font-bold">{meal.calories} Cal</span>
-      <button
-        onClick={() => {
-          deleteMeal(meal._id);
-        }}
-        className="px-3"
-      >
-        <box-icon name="trash" color="red"></box-icon>
-      </button>
-    </div>
-  );
-};
+import React, { useEffect, useState } from 'react';
+import { getMeals, deleteMeal } from '../services/mealService';
+import MealForm from './MealForm';
 
 const MealList = () => {
-  const { mealData, getMeal, userName } = useContext(GlobalContext);
-  useEffect(() => {
-    if (userName !== "") {
-      getMeal(userName);
-    }
-  }, [mealData]);
-  return (
-    <div className="flex flex-col py-6 gap-3">
-      <h1 className="py-4 font-bold text-xl">Breakfast</h1>
-      {mealData
-        .filter((meal) => {
-          return meal.mealType === "Breakfast";
-        })
-        .map((meal) => {
-          return <Meal key={meal._id} meal={meal} />;
-        })}
-      <h1 className="py-4 font-bold text-xl">Lunch</h1>
-      {mealData
-        .filter((meal) => {
-          return meal.mealType === "Lunch";
-        })
-        .map((meal) => {
-          return <Meal key={meal._id} meal={meal} />;
-        })}
+  const [meals, setMeals] = useState([]);
+  const [editingMeal, setEditingMeal] = useState(null);
 
-      <h1 className="py-4 font-bold text-xl">Dinner</h1>
-      {mealData
-        .filter((meal) => {
-          return meal.mealType === "Dinner";
-        })
-        .map((meal) => {
-          return <Meal key={meal._id} meal={meal} />;
-        })}
+  const fetchMeals = async () => {
+    const response = await getMeals();
+    setMeals(response.data);
+  };
+
+  useEffect(() => {
+    fetchMeals();
+  }, []);
+
+  const handleDelete = async (id) => {
+    await deleteMeal(id);
+    fetchMeals();
+  };
+
+  const handleEdit = (meal) => {
+    setEditingMeal(meal);
+  };
+
+  const refreshMeals = () => {
+    fetchMeals();
+    setEditingMeal(null);
+  };
+
+  return (
+    <div>
+      <h2>Meals</h2>
+      <MealForm existingMeal={editingMeal} refreshMeals={refreshMeals} />
+      <ul>
+        {meals.map((meal) => (
+          <li key={meal._id}>
+            {meal.name} - {meal.mealType} - {meal.calories}
+            <button onClick={() => handleEdit(meal)}>Edit</button>
+            <button onClick={() => handleDelete(meal._id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

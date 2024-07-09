@@ -1,59 +1,42 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
-:root {
-  --color-dkgreen : #003e29;
-  --color-ltgreen : #ade6b9;
-  --color-gray : #f3f3f3; 
-}
-
-
-* > * {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.tracker-container {
-  background-color: var(--color-gray);
+.App {
   text-align: center;
-  padding: 4em 0;
 }
 
-.bg-dkgreen {
-  background-color: var(--color-dkgreen);
-}
-.txt-dkgreen {
-  color: var(--color-dkgreen);
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-.bg-ltgreen {
-  background-color: var(--color-ltgreen);
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
-.txt-ltgreen {
-  color: var(--color-ltgreen);
-}
-
-.bg-gray {
-  background-color: var(--color-gray);
-}
-.txt-gray {
-  color: var(--color-gray);
+/* App Styles */
+.main-content {
+  padding-top: 70px; /* Adjust based on the navbar height */
 }
 
-.form-input {
-  @apply mt-1 block w-full py-2 px-3 border border-gray-200 bg-white rounded-md focus:outline-none focus:ring-indigo-500 sm:text-sm;
+.App-header {
+  background-color: #055805;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.submit-btn {
-  background-color: var(--color-dkgreen);
-  color: var(--color-ltgreen);
+.App-link {
+  color: #61dafb;
 }
 
-.login-container {
-  background-image: -webkit-linear-gradient(135deg, #003e29,#ade6b9);
- 
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

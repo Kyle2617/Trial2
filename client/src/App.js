@@ -1,24 +1,25 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Tracker from "./pages/Tracker";
-import Login from "./pages/Login";
-import Error from "./pages/Error";
-import SharedLayout from "./components/SharedLayout";
-import { GlobalProvider } from "./context/GlobalState";
-function App() {
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Meals from './pages/Meals';
+import Users from './pages/Users';
+import NavBar from './components/NavBar';
+import './App.css';
+
+const App = () => {
   return (
-    <GlobalProvider>
-      <BrowserRouter>
+    <Router>
+      <NavBar />
+      <div className="main-content">
         <Routes>
-          <Route path="/" element={<SharedLayout />}>
-            <Route index element={<Tracker />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="*" element={<Error />}></Route>
-          </Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/meals" element={<Meals />} />
+          <Route path="/users/:action" element={<Users />} />
         </Routes>
-      </BrowserRouter>
-    </GlobalProvider>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
+
